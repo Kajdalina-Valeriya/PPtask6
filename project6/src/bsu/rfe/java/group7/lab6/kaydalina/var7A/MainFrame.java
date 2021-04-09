@@ -75,9 +75,9 @@ public class MainFrame extends JFrame{
         resumeMenuItem = controlMenu.add(resumeAction);
         resumeMenuItem.setEnabled(false);
 
-        Action pauseFastAction = new AbstractAction("Приостановить быстрые мячи") {
+        Action pauseFastAction = new AbstractAction("Приостановить мячи, летящие под углом < 90") {
             public void actionPerformed(ActionEvent event) {
-                field.pauseFast();
+                field.pauseAngle();
                 pauseMenuItem.setEnabled(true);
                 resumeMenuItem.setEnabled(true);
                 pauseMenuFastItem.setEnabled(false);
