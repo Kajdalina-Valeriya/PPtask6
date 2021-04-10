@@ -45,7 +45,7 @@ public class BouncingBall implements Runnable {
 
         // Начальное направление скорости тоже случайно,
         // угол в пределах от 0 до 2PI
-        double angle = Math.random()*2*Math.PI;
+        angle = Math.random()*2*Math.PI;
         System.out.println(angle);
 
 
@@ -126,7 +126,7 @@ public class BouncingBall implements Runnable {
     }
 
     public double getAngle(){
-        System.out.println(angle);
+        //System.out.println(angle);
         return angle;
     }
 }

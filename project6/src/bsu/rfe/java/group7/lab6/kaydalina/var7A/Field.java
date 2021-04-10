@@ -78,6 +78,7 @@ public class Field extends JPanel {
         }
         if(pausedAngle && (ball.getAngle() <= (Math.PI/2) && ball.getAngle() >= 0
         )){
+            System.out.println(ball.getAngle());
             wait();
         }
     }

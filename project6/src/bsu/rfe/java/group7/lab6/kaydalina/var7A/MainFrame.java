@@ -16,7 +16,7 @@ public class MainFrame extends JFrame{
 
     private JMenuItem pauseMenuItem;
     private JMenuItem resumeMenuItem;
-    private JMenuItem pauseMenuFastItem;
+    private JMenuItem pauseMenuAngleItem;
 
     // Поле, по которому прыгают мячи
     private Field field = new Field();
@@ -40,11 +40,11 @@ public class MainFrame extends JFrame{
             public void actionPerformed(ActionEvent event) {
                 field.addBall();
                 if (!pauseMenuItem.isEnabled() && !resumeMenuItem.isEnabled()
-                        && !pauseMenuFastItem.isEnabled()) {
+                        && !pauseMenuAngleItem.isEnabled()) {
                     // Ни один из пунктов меню не являются
                     // доступными, сделать доступным паузу и паузу быстрых мячей доступными
                     pauseMenuItem.setEnabled(true);
-                    pauseMenuFastItem.setEnabled(true);
+                    pauseMenuAngleItem.setEnabled(true);
                 }
             }
         };
@@ -58,7 +58,7 @@ public class MainFrame extends JFrame{
                 field.pause();
                 pauseMenuItem.setEnabled(false);
                 resumeMenuItem.setEnabled(true);
-                pauseMenuFastItem.setEnabled(false);
+                pauseMenuAngleItem.setEnabled(false);
             }
         };
         pauseMenuItem = controlMenu.add(pauseAction);
@@ -69,22 +69,22 @@ public class MainFrame extends JFrame{
                 field.resume();
                 pauseMenuItem.setEnabled(true);
                 resumeMenuItem.setEnabled(false);
-                pauseMenuFastItem.setEnabled(true);
+                pauseMenuAngleItem.setEnabled(true);
             }
         };
         resumeMenuItem = controlMenu.add(resumeAction);
         resumeMenuItem.setEnabled(false);
 
-        Action pauseFastAction = new AbstractAction("Приостановить мячи, летящие под углом < 90") {
+        Action pauseAngleAction = new AbstractAction("Приостановить мячи, летящие под углом < 90") {
             public void actionPerformed(ActionEvent event) {
                 field.pauseAngle();
                 pauseMenuItem.setEnabled(true);
                 resumeMenuItem.setEnabled(true);
-                pauseMenuFastItem.setEnabled(false);
+                pauseMenuAngleItem.setEnabled(false);
             }
         };
-        pauseMenuFastItem = controlMenu.add(pauseFastAction);
-        pauseMenuFastItem.setEnabled(false);
+        pauseMenuAngleItem = controlMenu.add(pauseAngleAction);
+        pauseMenuAngleItem.setEnabled(false);
 
         // Добавить в центр граничной компоновки поле Field
         getContentPane().add(field, BorderLayout.CENTER);
