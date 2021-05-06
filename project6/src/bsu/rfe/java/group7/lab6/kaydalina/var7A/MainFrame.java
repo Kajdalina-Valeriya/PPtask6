@@ -9,30 +9,21 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame {
     private static final int WIDTH = 700;
     private static final int HEIGHT = 500;
-
     private JMenuItem pauseMenuItem;
     private JMenuItem resumeMenuItem;
-    private JMenuItem pauseMenuAngleItem;
-
-    // Поле, по которому прыгают мячи
+    private JMenuItem pauseFlagItem;
+    private JMenuItem resumeFlagItem;
     private Field field = new Field();
-
-    // Конструктор главного окна приложения
     public MainFrame() {
         super("Программирование и синхронизация потоков");
         setSize(WIDTH, HEIGHT);
         Toolkit kit = Toolkit.getDefaultToolkit();
-        // Отцентрировать окно приложения на экране
         setLocation((kit.getScreenSize().width - WIDTH)/2,
                 (kit.getScreenSize().height - HEIGHT)/2);
-        // Устанавливаем окно развёрнутым на весь экран
         setExtendedState(MAXIMIZED_BOTH);
-
-        //меню
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         JMenu ballMenu = new JMenu("Мячи");
@@ -40,17 +31,14 @@ public class MainFrame extends JFrame{
             public void actionPerformed(ActionEvent event) {
                 field.addBall();
                 if (!pauseMenuItem.isEnabled() && !resumeMenuItem.isEnabled()
-                        && !pauseMenuAngleItem.isEnabled()) {
-                    // Ни один из пунктов меню не являются
-                    // доступными, сделать доступным паузу и паузу быстрых мячей доступными
+                        && !pauseFlagItem.isEnabled() && !resumeFlagItem.isEnabled()) {
                     pauseMenuItem.setEnabled(true);
-                    pauseMenuAngleItem.setEnabled(true);
+                    pauseFlagItem.setEnabled(true);
                 }
             }
         };
         menuBar.add(ballMenu);
         ballMenu.add(addBallAction);
-
         JMenu controlMenu = new JMenu("Управление");
         menuBar.add(controlMenu);
         Action pauseAction = new AbstractAction("Приостановить движение"){
@@ -58,43 +46,48 @@ public class MainFrame extends JFrame{
                 field.pause();
                 pauseMenuItem.setEnabled(false);
                 resumeMenuItem.setEnabled(true);
-                pauseMenuAngleItem.setEnabled(false);
+                pauseFlagItem.setEnabled(false);
             }
         };
         pauseMenuItem = controlMenu.add(pauseAction);
         pauseMenuItem.setEnabled(false);
-
         Action resumeAction = new AbstractAction("Возобновить движение") {
             public void actionPerformed(ActionEvent event) {
                 field.resume();
                 pauseMenuItem.setEnabled(true);
                 resumeMenuItem.setEnabled(false);
-                pauseMenuAngleItem.setEnabled(true);
+                pauseFlagItem.setEnabled(true);
             }
         };
         resumeMenuItem = controlMenu.add(resumeAction);
         resumeMenuItem.setEnabled(false);
 
-        Action pauseAngleAction = new AbstractAction("Приостановить мячи, летящие под углом < 90") {
+        Action pauseFlag = new AbstractAction("Приостановить 1 четверть"){
             public void actionPerformed(ActionEvent event) {
-                field.pauseAngle();
-                pauseMenuItem.setEnabled(true);
-                resumeMenuItem.setEnabled(true);
-                pauseMenuAngleItem.setEnabled(false);
+                field.pauseFlag();
+                pauseFlagItem.setEnabled(false);
+                resumeFlagItem.setEnabled(true);
+                pauseMenuItem.setEnabled(false);
             }
         };
-        pauseMenuAngleItem = controlMenu.add(pauseAngleAction);
-        pauseMenuAngleItem.setEnabled(false);
+        pauseFlagItem = controlMenu.add(pauseFlag);
+        pauseFlagItem.setEnabled(false);
 
-        // Добавить в центр граничной компоновки поле Field
+        Action resumeFlag = new AbstractAction("Запустить 1 четверть") {
+            public void actionPerformed(ActionEvent event) {
+                field.resumeFlag();
+                pauseFlagItem.setEnabled(true);
+                resumeFlagItem.setEnabled(false);
+                pauseMenuItem.setEnabled(true);
+            }
+        };
+        resumeFlagItem = controlMenu.add(resumeFlag);
+        resumeFlagItem.setEnabled(false);
         getContentPane().add(field, BorderLayout.CENTER);
     }
-
     public static void main(String[] args) {
-// Создать и сделать видимым главное окно приложения
         MainFrame frame = new MainFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-
 }
